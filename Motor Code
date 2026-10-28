@@ -1,0 +1,62 @@
+#include <Servo.h>
+
+Servo servoRight;
+Servo servoLeft;
+
+byte pinFeedbackLeft = 2;
+byte pinServoLeft = 3;
+byte pinFeedbackRight = 4;
+byte pinServoRight = 5;
+
+int forwardsRight = 90;
+int backwardsRight = 100;
+int forwardsLeft = 100;
+int backwardsLeft = 90;
+int servoStop = 94;
+
+char keyCommand;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(pinFeedbackRight, INPUT);
+  pinMode(pinFeedbackLeft, INPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+if (Serial.available() > 0){
+    keyCommand = Serial.read();
+    
+    switch(keyCommand){
+      case 'f': 
+        servoRight.attach(pinServoRight);
+        servoLeft.attach(pinServoLeft);
+          servoRight.write(forwardsRight);
+          servoLeft.write(forwardsLeft);
+          delay(500);
+          servoRight.detach();
+          servoLeft.detach();
+        break;
+      case 'b': 
+        servoRight.attach(pinServoRight);
+        servoLeft.attach(pinServoLeft);
+        servoRight.write(backwardsRight);
+        servoLeft.write(backwardsLeft);
+        delay(500);
+        servoRight.detach();
+        servoLeft.detach();
+        break;
+      case 's': 
+        servoRight.attach(pinServoRight);
+        servoLeft.attach(pinServoLeft);
+        servoRight.write(servoStop);
+        servoLeft.write(servoStop);
+        delay(500);
+        servoRight.detach();
+        servoLeft.detach();
+        break;
+      default: break;
+    }   
+  }
+}
